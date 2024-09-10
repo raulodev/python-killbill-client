@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 import requests
-from ..errors import KillBillException
+from killbill.errors import KillBillException
 
 
 class BaseClient:

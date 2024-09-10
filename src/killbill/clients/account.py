@@ -1,6 +1,6 @@
-from .base import BaseClient
-from ..header import Header
-from ..enums import Audit
+from killbill.clients.base import BaseClient
+from killbill.header import Header
+from killbill.enums import Audit
 
 
 class AccountClient(BaseClient):

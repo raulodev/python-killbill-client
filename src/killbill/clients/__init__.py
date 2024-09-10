@@ -1,5 +1,14 @@
-from .account import AccountClient
-from .bundle import BundleClient
-from .catalog import CatalogClient
-from .subscription import Subscription
-from .tenant import TenantClient
+from killbill.clients.account import AccountClient
+from killbill.clients.bundle import BundleClient
+from killbill.clients.catalog import CatalogClient
+from killbill.clients.subscription import Subscription
+from killbill.clients.tenant import TenantClient
+
+
+__all__ = [
+    "AccountClient",
+    "BundleClient",
+    "CatalogClient",
+    "Subscription",
+    "TenantClient",
+]
