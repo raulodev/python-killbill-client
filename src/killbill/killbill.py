@@ -1,8 +1,8 @@
-from killbill.clients.tenant import TenantClient
-from killbill.clients.catalog import CatalogClient
-from killbill.clients.account import AccountClient
-from killbill.clients.subscription import Subscription
-from killbill.clients.bundle import BundleClient
+from .clients.tenant import TenantClient
+from .clients.catalog import CatalogClient
+from .clients.account import AccountClient
+from .clients.subscription import Subscription
+from .clients.bundle import BundleClient
 
 
 class KillBillClient:

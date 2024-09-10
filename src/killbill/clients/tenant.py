@@ -1,5 +1,5 @@
 from typing import Union
-from killbill.base import BaseClient
+from .base import BaseClient
 
 
 class TenantClient(BaseClient):

@@ -1,7 +1,7 @@
 from typing import Union
-from killbill.base import BaseClient
-from killbill.header import Header
-from killbill.enums import ProductCategory, TrialTimeUnit, BillingPeriod
+from .base import BaseClient
+from ..header import Header
+from ..enums import ProductCategory, TrialTimeUnit, BillingPeriod
 
 
 class CatalogClient(BaseClient):

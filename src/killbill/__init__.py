@@ -1,4 +1,4 @@
-from killbill.killbill import KillBillClient
-from killbill.header import Header
+from .killbill import KillBillClient
+from .header import Header
 
 __all__ = ["KillBillClient", "Header"]

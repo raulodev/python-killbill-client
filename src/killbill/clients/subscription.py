@@ -1,7 +1,7 @@
 # pylint: disable=R0913
-from killbill.base import BaseClient
-from killbill.header import Header
-from killbill.enums import Audit, EntitlementPolicy, BillingPolicy
+from .base import BaseClient
+from ..header import Header
+from ..enums import Audit, EntitlementPolicy, BillingPolicy
 
 
 class Subscription(BaseClient):
