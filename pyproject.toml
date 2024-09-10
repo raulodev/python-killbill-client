@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "python-killbill-client"
-version = "0.0.1"
+version = "0.0.2a"
 authors = [
   { name="Raul Cobiellas", email="raulodev@gmail.com" },
 ]
@@ -17,7 +17,12 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = ["requests>=2.32.3"]
 
 [project.urls]
 Homepage = "https://github.com/raulodev/python-killbill-client"
 Issues = "https://github.com/raulodev/python-killbill-client/issues"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/killbill"]
