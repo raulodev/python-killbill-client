@@ -13,4 +13,4 @@ python3 -m twine upload --repository testpypi dist/*
 # python3 -m twine upload dist/*
 
 # Install
-python3 -m pip install --index-url https://test.pypi.org/simple/  python-killbill-client
+python3 -m pip install --index-url https://test.pypi.org/simple/ -U python-killbill-client 
