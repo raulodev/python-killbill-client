@@ -1,2 +1,5 @@
 src/test_manual.py
 __pycache__
+.venv
+dist
+test.py
