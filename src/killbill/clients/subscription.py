@@ -1,9 +1,15 @@
 from killbill.clients.base import BaseClient
 from killbill.header import Header
-from killbill.enums import Audit, EntitlementPolicy, BillingPolicy
+from killbill.enums import (
+    Audit,
+    EntitlementPolicy,
+    BillingPolicy,
+    ProductCategory,
+    BillingPeriod,
+)
 
 
-class Subscription(BaseClient):
+class SubscriptionClient(BaseClient):
 
     def create(
         self,
@@ -11,6 +17,11 @@ class Subscription(BaseClient):
         account_id: str,
         plan_name: str,
         start_date: str = None,
+        external_key: str = None,
+        product_name: str = None,
+        product_category: ProductCategory = None,
+        billing_period: BillingPeriod = None,
+        price_list: str = None,
     ):
         """Create an subscription
 
@@ -22,6 +33,11 @@ class Subscription(BaseClient):
             "accountId": account_id,
             "planName": plan_name,
             "startDate": start_date,
+            "externalKey": external_key,
+            "productName": product_name,
+            "productCategory": str(product_category) if product_category else None,
+            "billingPeriod": str(billing_period) if billing_period else None,
+            "priceList": price_list,
         }
 
         response = self._post("subscriptions", headers=header.dict(), payload=payload)

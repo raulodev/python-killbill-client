@@ -1,7 +1,7 @@
 from killbill.clients.tenant import TenantClient
 from killbill.clients.catalog import CatalogClient
 from killbill.clients.account import AccountClient
-from killbill.clients.subscription import Subscription
+from killbill.clients.subscription import SubscriptionClient
 from killbill.clients.bundle import BundleClient
 from killbill.clients.overdue import OverdueClient
 
@@ -18,6 +18,6 @@ class KillBillClient:
         self.tenant = TenantClient(username, password, api_url)
         self.catalog = CatalogClient(username, password, api_url)
         self.account = AccountClient(username, password, api_url)
-        self.subscription = Subscription(username, password, api_url)
+        self.subscription = SubscriptionClient(username, password, api_url)
         self.bundle = BundleClient(username, password, api_url)
         self.overdue = OverdueClient(username, password, api_url)
