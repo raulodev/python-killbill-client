@@ -10,22 +10,22 @@ from killbill import KillBillClient
 killbill = KillBillClient("admin", "password")
 ```
 
-- ### [Tenant](#tenant)
-- ### [Catalog](#catalog)
-- ### [Account](#account)
-- ### [Subscription](#subscription)
-- ### [Invoices](#invoices)
-- ### [Overdue](#overdue)
+Table of contents :
 
-## <a name="tenant"></a> Tenant
+- [Tenant](#tenant)
+- [Catalog](#catalog)
+- [Account](#account)
+- [Subscription](#subscription)
+- [Invoices](#invoices)
+- [Overdue](#overdue)
+
+## Tenant
 
 Create a tenant
 
 ```python
 killbill.tenant.create(api_key="bob", api_secret="lazar", created_by="demo")
 ```
-
-#### Header
 
 And use `api_key` and `api_secret` to create header
 
@@ -35,7 +35,7 @@ from killbill import Header
 header = Header(api_key="bob", api_secret="lazar", created_by="demo")
 ```
 
-## <a name="catalog"></a> Catalog
+## Catalog
 
 Create a simple catalog
 
