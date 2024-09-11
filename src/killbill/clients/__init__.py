@@ -3,6 +3,7 @@ from killbill.clients.bundle import BundleClient
 from killbill.clients.catalog import CatalogClient
 from killbill.clients.subscription import Subscription
 from killbill.clients.tenant import TenantClient
+from killbill.clients.overdue import OverdueClient
 
 
 __all__ = [
@@ -11,4 +12,5 @@ __all__ = [
     "CatalogClient",
     "Subscription",
     "TenantClient",
+    "OverdueClient",
 ]

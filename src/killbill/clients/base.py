@@ -102,7 +102,21 @@ class BaseClient:
     def _raise_for_status(self, response):
         """Raise an exception if the response status code is not 2xx"""
 
-        if response.status_code in (401, 404, 405, 415):
+        if response.status_code == 500:
+            raise KillBillException("Internal Server Error")
+
+        if response.status_code == 415:
+            raise KillBillException(
+                "Unsupported Media Type .The origin server is "
+                "refusing to service the request because the payload "
+                "is in a format not supported by this method on the target "
+                "resource"
+            )
+
+        if response.status_code == 404:
+            raise KillBillException("Not Found")
+
+        if response.status_code in (401, 405):
             raise KillBillException(response.text)
 
         if response.status_code >= 400:
