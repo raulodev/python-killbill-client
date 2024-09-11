@@ -1,5 +1,6 @@
 from typing import Union
 from killbill.clients.base import BaseClient
+from killbill.header import Header
 
 
 class TenantClient(BaseClient):
@@ -37,3 +38,45 @@ class TenantClient(BaseClient):
         self._raise_for_status(response)
 
         return self._get_uuid(response.headers.get("Location"))
+
+    def retrieve_configuration(self, header: Header):
+        """Retrieve a per tenant configuration (system properties)"""
+
+        response = self._get(
+            "tenants/uploadPerTenantConfig",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+    def add_configuration(self, header: Header, config: str):
+        """Add a per tenant configuration (system properties)
+
+
+        >> Example
+        ```python
+        killbill.tenant.add_configuration(
+            header, config='{"org.killbill.payment.retry.days":"1,8,4,7"}'
+        )
+        ```
+        """
+
+        response = self._post(
+            "tenants/uploadPerTenantConfig",
+            data=config,
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+    def delete_configuration(self, header: Header):
+        """Delete a per tenant configuration (system properties)"""
+
+        response = self._delete(
+            "tenants/uploadPerTenantConfig",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
