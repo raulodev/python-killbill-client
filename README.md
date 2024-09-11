@@ -141,5 +141,8 @@ print(overdue_config)
 Upload overdue config
 
 ```python
-killbill.overdue.upload(header=header, overdue_config_xml=overdue_config)
+# first get text content
+overdue_config_xml = open("Overdue.xml", "r", encoding="utf-8").read()
+
+killbill.overdue.upload(header=header, overdue_config_xml=overdue_config_xml)
 ```
