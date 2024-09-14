@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 import requests
-from killbill.errors import KillBillException
+from requests.exceptions import JSONDecodeError
+from killbill.exceptions import KillBillError, UnknownError, AuthError
 
 
 class BaseClient:
@@ -102,16 +103,25 @@ class BaseClient:
     def _raise_for_status(self, response):
         """Raise an exception if the response status code is not 2xx"""
 
-        if response.status_code >= 400:
+        status_code = response.status_code
 
+        if status_code >= 400:
+
+            if status_code == 401:
+                raise AuthError
+
+            # Try get error message from kill bill api
             error_message = None
 
             try:
                 error_message = response.json().get("message")
-            except Exception as exc:
+            except JSONDecodeError:
                 error_message = response.text
 
-            raise KillBillException(error_message)
+            if error_message:
+                raise KillBillError(error_message)
+
+            raise UnknownError
 
     def _get_uuid(self, url: str = None):
         """Return uuid from url location"""
