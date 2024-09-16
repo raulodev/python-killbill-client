@@ -92,3 +92,40 @@ class SubscriptionClient(BaseClient):
         )
 
         self._raise_for_status(response)
+
+    def create_with_add_ons(
+        self, header: Header, account_id: str, plan_name: str, add_ons_name: list[str]
+    ):
+        """Create an entitlement with addOn products
+
+        Args:
+            add_ons_name (list[str]): List of add-ons (plan name) to be added to the subscription
+
+        Returns:
+            str or None: The bundle's ID or None if the request failed.
+        """
+
+        payload = [
+            {
+                "accountId": account_id,
+                "planName": plan_name,
+            }
+        ]
+
+        for add_ons in add_ons_name:
+            payload.append(
+                {
+                    "accountId": account_id,
+                    "planName": add_ons,
+                }
+            )
+
+        response = self._post(
+            "subscriptions/createSubscriptionWithAddOns",
+            headers=header.dict(),
+            payload=payload,
+        )
+
+        self._raise_for_status(response)
+
+        return self._get_uuid(response.headers.get("Location"))
