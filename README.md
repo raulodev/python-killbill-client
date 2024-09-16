@@ -13,15 +13,37 @@ killbill = KillBillClient("admin", "password")
 Table of contents :
 
 - [Tenant](#tenant)
+
+  - [Create a tenant](#create-a-tenant)
+
 - [Catalog](#catalog)
+
+  - [Create a simple catalog](#create-a-simple-catalog)
+  - [Create a catalog from file](#create-a-catalog-from-file)
+
 - [Account](#account)
+
+  - [Create account](#create-account)
+  - [List accounts](#list-accounts)
+  - [Add payment method](#add-a-payment-method-to-the-account)
+
 - [Subscription](#subscription)
+
+  - [Create subscription](#set-up-a-subscription-for-the-account)
+  - [Create suscription with add-ons](#create-suscription-with-add-ons)
+
 - [Invoices](#invoices)
+
+  - [Retrieve Invoices](#retrieve-account-invoices)
+
 - [Overdue](#overdue)
+
+  - [Retrieve config](#retrieve-overdue-config)
+  - [Upload config](#upload-overdue-config)
 
 ## Tenant
 
-Create a tenant
+#### Create a tenant
 
 ```python
 killbill.tenant.create(api_key="bob", api_secret="lazar", created_by="demo")
@@ -37,7 +59,7 @@ header = Header(api_key="bob", api_secret="lazar", created_by="demo")
 
 ## Catalog
 
-Create a simple catalog
+#### Create a simple catalog
 
 ```python
 from killbill.enums import ProductCategory, BillingPeriod, TrialTimeUnit
@@ -55,7 +77,7 @@ killbill.catalog.add_simple_plan(
 )
 ```
 
-Create a catalog from file
+#### Create a catalog from file
 
 ```python
 # first get text content
@@ -66,7 +88,7 @@ killbill.catalog.create(header=header, catalog_xml=xml_file)
 
 ## <a name="account"></a> Account
 
-Create account
+#### Create account
 
 ```python
 # return account id
@@ -77,7 +99,7 @@ account_id = killbill.account.create(
 )
 ```
 
-List accounts
+#### List accounts
 
 ```python
 import json
@@ -87,7 +109,7 @@ accounts = killbill.account.list(header=header)
 print(json.dumps(accounts, indent=4))
 ```
 
-Add a payment method to the account
+#### Add a payment method to the account
 
 Note: Replace `3d52ce98-104e-4cfe-af7d-732f9a264a9a` below with the ID of your account.
 
@@ -102,7 +124,7 @@ killbill.account.add_payment_method(
 
 ## <a name="subscription"></a> Subscription
 
-Set Up a Subscription for the Account
+#### Set Up a Subscription for the Account
 
 Note: Replace `3d52ce98-104e-4cfe-af7d-732f9a264a9a` below with the ID of your account.
 
@@ -114,9 +136,22 @@ subscription_id = killbill.subscription.create(
 )
 ```
 
+#### Create suscription with add-ons
+
+Note: Replace `3d52ce98-104e-4cfe-af7d-732f9a264a9a` below with the ID of your account.
+
+```python
+bundle_id = killbill.subscription.create_with_add_ons(
+    header=header,
+    account_id="3d52ce98-104e-4cfe-af7d-732f9a264a9a",
+    plan_name="standard-monthly",
+    add_ons_name=["standard-monthly-add-on"],
+)
+```
+
 ## <a name="invoices"></a> Invoices
 
-Retrieve account invoices
+#### Retrieve account invoices
 
 Note: Replace `3d52ce98-104e-4cfe-af7d-732f9a264a9a` below with the ID of your account.
 
@@ -130,7 +165,7 @@ print(json.dumps(invoices, indent=4))
 
 ## <a name="overdue"></a> Overdue
 
-Retrieve overdue config
+#### Retrieve overdue config
 
 ```python
 overdue_config = killbill.overdue.retrieve(header=header)
@@ -138,7 +173,7 @@ overdue_config = killbill.overdue.retrieve(header=header)
 print(overdue_config)
 ```
 
-Upload overdue config
+#### Upload overdue config
 
 ```python
 # first get text content
