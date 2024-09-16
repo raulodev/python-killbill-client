@@ -129,3 +129,43 @@ class SubscriptionClient(BaseClient):
         self._raise_for_status(response)
 
         return self._get_uuid(response.headers.get("Location"))
+
+    def create_multiple_with_add_ons(
+        self, header: Header, account_id: str, bundles: list[list]
+    ):
+        """Create multiple entitlements with addOn products
+
+        >> Example
+        ```python
+        killbill.subscription.create_multiple_with_add_ons(
+            header,
+            account_id="3d52ce98-104e-4cfe-af7d-732f9a264a9a",
+            bundles=[
+                ["standard-monthly", "standard-monthly-add-on"],
+                ["sport-monthly", "sport-monthly-add-on-1", "sport-monthly-add-on-2"],
+            ],
+        )
+        ```
+        """
+
+        payload = []
+
+        for bundle in bundles:
+            base_and_add_ons = []
+            for plan in bundle:
+                base_and_add_ons.append(
+                    {
+                        "accountId": account_id,
+                        "planName": plan,
+                    }
+                )
+
+            payload.append({"baseEntitlementAndAddOns": base_and_add_ons})
+
+        response = self._post(
+            "subscriptions/createSubscriptionsWithAddOns",
+            headers=header.dict(),
+            payload=payload,
+        )
+
+        self._raise_for_status(response)

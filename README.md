@@ -1,5 +1,11 @@
 # python-killbill-client
 
+### Installation
+
+```bash
+pip install python-killbill-client
+```
+
 ### Guide
 
 Frist step create client
@@ -31,6 +37,7 @@ Table of contents :
 
   - [Create subscription](#set-up-a-subscription-for-the-account)
   - [Create suscription with add-ons](#create-suscription-with-add-ons)
+  - [Create multiple suscriptions with add-ons](#create-multiple-suscriptions-with-add-ons)
 
 - [Invoices](#invoices)
 
@@ -146,6 +153,21 @@ bundle_id = killbill.subscription.create_with_add_ons(
     account_id="3d52ce98-104e-4cfe-af7d-732f9a264a9a",
     plan_name="standard-monthly",
     add_ons_name=["standard-monthly-add-on"],
+)
+```
+
+#### Create multiple suscriptions with add-ons
+
+Note: Replace `3d52ce98-104e-4cfe-af7d-732f9a264a9a` below with the ID of your account.
+
+```python
+killbill.subscription.create_multiple_with_add_ons(
+    header,
+    account_id="3d52ce98-104e-4cfe-af7d-732f9a264a9a",
+    bundles=[
+        ["standard-monthly", "standard-monthly-add-on"],
+        ["sport-monthly", "sport-monthly-add-on-1", "sport-monthly-add-on-2"],
+    ],
 )
 ```
 
