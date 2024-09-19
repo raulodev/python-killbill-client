@@ -32,7 +32,6 @@ class SubscriptionClient(BaseClient):
         payload = {
             "accountId": account_id,
             "planName": plan_name,
-            "startDate": start_date,
             "externalKey": external_key,
             "productName": product_name,
             "productCategory": str(product_category) if product_category else None,
@@ -40,7 +39,14 @@ class SubscriptionClient(BaseClient):
             "priceList": price_list,
         }
 
-        response = self._post("subscriptions", headers=header.dict(), payload=payload)
+        params = {
+            "entitlementDate": start_date,
+            "billingDate": start_date,
+        }
+
+        response = self._post(
+            "subscriptions", headers=header.dict(), payload=payload, params=params
+        )
 
         self._raise_for_status(response)
 
@@ -94,7 +100,12 @@ class SubscriptionClient(BaseClient):
         self._raise_for_status(response)
 
     def create_with_add_ons(
-        self, header: Header, account_id: str, plan_name: str, add_ons_name: list[str]
+        self,
+        header: Header,
+        account_id: str,
+        plan_name: str,
+        add_ons_name: list[str],
+        start_date: str = None,
     ):
         """Create an entitlement with addOn products
 
@@ -112,6 +123,8 @@ class SubscriptionClient(BaseClient):
             }
         ]
 
+        params = {"entitlementDate": start_date, "billingDate": start_date}
+
         for add_ons in add_ons_name:
             payload.append(
                 {
@@ -124,6 +137,7 @@ class SubscriptionClient(BaseClient):
             "subscriptions/createSubscriptionWithAddOns",
             headers=header.dict(),
             payload=payload,
+            params=params,
         )
 
         self._raise_for_status(response)
@@ -131,7 +145,11 @@ class SubscriptionClient(BaseClient):
         return self._get_uuid(response.headers.get("Location"))
 
     def create_multiple_with_add_ons(
-        self, header: Header, account_id: str, bundles: list[list]
+        self,
+        header: Header,
+        account_id: str,
+        bundles: list[list],
+        start_date: str = None,
     ):
         """Create multiple entitlements with addOn products
 
@@ -162,10 +180,13 @@ class SubscriptionClient(BaseClient):
 
             payload.append({"baseEntitlementAndAddOns": base_and_add_ons})
 
+        params = {"entitlementDate": start_date, "billingDate": start_date}
+
         response = self._post(
             "subscriptions/createSubscriptionsWithAddOns",
             headers=header.dict(),
             payload=payload,
+            params=params,
         )
 
         self._raise_for_status(response)
