@@ -57,9 +57,18 @@ class CatalogClient(BaseClient):
         self._raise_for_status(response)
 
     def retrieve(
-        self, header: Header, account_id: str = None, requested_date: str = None
+        self,
+        header: Header,
+        account_id: str = None,
+        requested_date: str = None,
+        xml=False,
     ):
-        """Retrieve an catalog."""
+        """Retrieve catalogs.
+
+        if `xml = True`, returns the XML representation of the overdue config
+
+        if `xml = False`, returns the JSON representation of the overdue config
+        """
 
         payload = {
             "accountId": account_id,
@@ -67,14 +76,14 @@ class CatalogClient(BaseClient):
         }
 
         response = self._get(
-            "catalog",
+            "catalog/xml" if xml else "catalog",
             payload=payload,
             headers=header.dict(),
         )
 
         self._raise_for_status(response)
 
-        return response.json()
+        return response.text if xml else response.json()
 
     def validate(self, header: Header, catalog_xml: str):
         """Validate a XML catalog
