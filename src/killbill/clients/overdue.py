@@ -20,7 +20,7 @@ class OverdueClient(BaseClient):
 
         self._raise_for_status(response)
 
-        return response.text
+        return response.text if xml else response.json()
 
     def upload(self, header: Header, overdue_config_xml: str):
         """Upload overdue config
