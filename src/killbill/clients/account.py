@@ -195,3 +195,30 @@ class AccountClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
+
+    def retrieve(
+        self,
+        header: Header,
+        external_key: str,
+        account_with_balance: bool = False,
+        account_with_balance_and_cba: bool = False,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve an account by external key"""
+
+        params = {
+            "externalKey": external_key,
+            "accountWithBalance": account_with_balance,
+            "accountWithBalanceAndCBA": account_with_balance_and_cba,
+            "audit": str(audit),
+        }
+
+        response = self._get(
+            "accounts",
+            params=params,
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
