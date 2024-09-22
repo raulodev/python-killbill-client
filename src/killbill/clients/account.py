@@ -1,6 +1,7 @@
+from typing import Union, List
 from killbill.clients.base import BaseClient
 from killbill.header import Header
-from killbill.enums import Audit
+from killbill.enums import Audit, BlockingStateType
 
 
 class AccountClient(BaseClient):
@@ -217,6 +218,37 @@ class AccountClient(BaseClient):
             "accounts",
             params=params,
             headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+    def get_blocking_states(
+        self,
+        header: Header,
+        account_id: str,
+        blocking_state_types: Union[
+            BlockingStateType, List[BlockingStateType]
+        ] = BlockingStateType.ACCOUNT,
+        blocking_state_svcs: Union[str, List[str]] = None,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve account blocking states"""
+
+        if isinstance(blocking_state_types, list):
+            blocking_state_types = [str(x) for x in blocking_state_types]
+        else:
+            blocking_state_types = str(blocking_state_types)
+
+        params = {
+            "blockingStateTypes": blocking_state_types,
+            "blockingStateSvcs": blocking_state_svcs,
+            "audit": str(audit),
+        }
+
+        response = self._get(
+            f"accounts/{account_id}/block", headers=header.dict(), params=params
         )
 
         self._raise_for_status(response)

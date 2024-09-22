@@ -76,3 +76,14 @@ class BillingPolicy(enum.Enum):
 
     def __str__(self):
         return self.value
+
+
+class BlockingStateType(enum.Enum):
+    """Blocking State Type"""
+
+    SUBSCRIPTION = "SUBSCRIPTION"
+    SUBSCRIPTION_BUNDLE = "SUBSCRIPTION_BUNDLE"
+    ACCOUNT = "ACCOUNT"
+
+    def __str__(self):
+        return self.value
