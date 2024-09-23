@@ -87,3 +87,30 @@ class BlockingStateType(enum.Enum):
 
     def __str__(self):
         return self.value
+
+
+class ObjectType(enum.Enum):
+    """Object Type"""
+
+    ACCOUNT = "ACCOUNT"
+    ACCOUNT_EMAIL = "ACCOUNT_EMAIL"
+    BLOCKING_STATES = "BLOCKING_STATES"
+    BUNDLE = "BUNDLE"
+    CUSTOM_FIELD = "CUSTOM_FIELD"
+    INVOICE = "INVOICE"
+    PAYMENT = "PAYMENT"
+    TRANSACTION = "TRANSACTION"
+    INVOICE_ITEM = "INVOICE_ITEM"
+    INVOICE_PAYMENT = "INVOICE_PAYMENT"
+    SUBSCRIPTION = "SUBSCRIPTION"
+    SUBSCRIPTION_EVENT = "SUBSCRIPTION_EVENT"
+    SERVICE_BROADCAST = "SERVICE_BROADCAST"
+    PAYMENT_ATTEMPT = "PAYMENT_ATTEMPT"
+    PAYMENT_METHOD = "PAYMENT_METHOD"
+    TAG = "TAG"
+    TAG_DEFINITION = "TAG_DEFINITION"
+    TENANT = "TENANT"
+    TENANT_KVS = "TENANT_KVS"
+
+    def __str__(self):
+        return self.value
