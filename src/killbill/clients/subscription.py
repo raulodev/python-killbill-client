@@ -1,3 +1,4 @@
+from typing import List
 from killbill.clients.base import BaseClient
 from killbill.header import Header
 from killbill.enums import (
@@ -6,6 +7,7 @@ from killbill.enums import (
     BillingPolicy,
     ProductCategory,
     BillingPeriod,
+    ObjectType,
 )
 
 
@@ -187,6 +189,114 @@ class SubscriptionClient(BaseClient):
             headers=header.dict(),
             payload=payload,
             params=params,
+        )
+
+        self._raise_for_status(response)
+
+    def add_custom_fields(
+        self,
+        header: Header,
+        subscription_id: str,
+        fields: dict,
+        object_type: ObjectType = ObjectType.ACCOUNT,
+    ):
+        """Add custom fields to subscription"""
+
+        payload = []
+
+        for item in fields.items():
+            payload.append(
+                {
+                    "objectType": str(object_type),
+                    "name": item[0],
+                    "value": item[1],
+                }
+            )
+
+        response = self._post(
+            f"subscriptions/{subscription_id}/customFields",
+            headers=header.dict(),
+            payload=payload,
+        )
+
+        self._raise_for_status(response)
+
+    def get_custom_fields(
+        self, header: Header, subscription_id: str, audit: Audit = Audit.NONE
+    ):
+        """Retrieve subscription custom fields"""
+
+        params = {"audit": str(audit)}
+
+        response = self._get(
+            f"subscriptions/{subscription_id}/customFields",
+            headers=header.dict(),
+            params=params,
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+    def update_custom_fields(
+        self,
+        header: Header,
+        subscription_id: str,
+        fields: List[dict],
+        object_type: ObjectType = ObjectType.ACCOUNT,
+    ):
+        """Modify custom fields to subscription
+
+
+        ```python
+        killbill.subscription.update_custom_fields(
+            header,
+            subscription_id="subscription_id",
+            object_type=ObjectType.SUBSCRIPTION,
+            fields=[
+                {
+                    "name": "name",
+                    "value": "value",
+                    "field_id": "field_id",
+                }
+            ],
+        )
+
+        ```
+        """
+
+        if not isinstance(fields, (list, tuple)):
+            raise TypeError("fields must be a list or tuple")
+
+        for item in fields:
+            if not isinstance(item, dict):
+                raise TypeError("fields must be a list of dict")
+
+            if not item.get("name"):
+                raise ValueError("name is required")
+
+            if not item.get("value"):
+                raise ValueError("value is required")
+
+            if not item.get("field_id"):
+                raise ValueError("field_id is required")
+
+        payload = []
+
+        for item in fields:
+            payload.append(
+                {
+                    "objectType": str(object_type),
+                    "name": item.get("name"),
+                    "value": item.get("value"),
+                    "customFieldId": item.get("field_id"),
+                }
+            )
+
+        response = self._put(
+            f"subscriptions/{subscription_id}/customFields",
+            headers=header.dict(),
+            payload=payload,
         )
 
         self._raise_for_status(response)
