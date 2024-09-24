@@ -8,11 +8,16 @@ class BaseClient:
     """Base class for the Kill Bill API client"""
 
     def __init__(
-        self, username: str, password: str, api_url: str = "http://localhost:8080"
+        self,
+        username: str,
+        password: str,
+        api_url: str = "http://localhost:8080",
+        timeout: int = 30,
     ):
         self.api_url = api_url
         self.username = username
         self.password = password
+        self.timeout = timeout
 
     def _post(
         self,
@@ -20,7 +25,6 @@ class BaseClient:
         headers: dict,
         payload: dict = None,
         data=None,
-        timeout: int = 1000,
         params: dict = None,
     ):
         """Make a POST request to the Kill Bill API"""
@@ -29,7 +33,7 @@ class BaseClient:
             f"{self.api_url}/1.0/kb/{endpoint}",
             json=payload,
             data=data,
-            timeout=timeout,
+            timeout=self.timeout,
             auth=(self.username, self.password),
             headers=headers,
             params=params,
@@ -42,7 +46,6 @@ class BaseClient:
         headers: dict,
         payload: dict = None,
         data=None,
-        timeout: int = 1000,
         params: dict = None,
     ):
         """Make a DELETE request to the Kill Bill API"""
@@ -51,7 +54,7 @@ class BaseClient:
             f"{self.api_url}/1.0/kb/{endpoint}",
             json=payload,
             data=data,
-            timeout=timeout,
+            timeout=self.timeout,
             auth=(self.username, self.password),
             headers=headers,
             params=params,
@@ -63,7 +66,6 @@ class BaseClient:
         endpoint: str,
         headers: dict,
         payload: dict = None,
-        timeout: int = 1000,
         params: dict = None,
     ):
         """Make a GET request to the Kill Bill API"""
@@ -71,7 +73,7 @@ class BaseClient:
         response = requests.get(
             f"{self.api_url}/1.0/kb/{endpoint}",
             json=payload,
-            timeout=timeout,
+            timeout=self.timeout,
             auth=(self.username, self.password),
             headers=headers,
             params=params,
@@ -84,7 +86,6 @@ class BaseClient:
         headers: dict,
         payload: dict = None,
         data=None,
-        timeout: int = 1000,
         params: dict = None,
     ):
         """Make a POST request to the Kill Bill API"""
@@ -93,7 +94,7 @@ class BaseClient:
             f"{self.api_url}/1.0/kb/{endpoint}",
             json=payload,
             data=data,
-            timeout=timeout,
+            timeout=self.timeout,
             auth=(self.username, self.password),
             headers=headers,
             params=params,

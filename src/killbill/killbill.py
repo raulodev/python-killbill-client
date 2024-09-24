@@ -14,10 +14,11 @@ class KillBillClient:
         username: str,
         password: str,
         api_url: str = "http://localhost:8080",
+        timeout: int = 30,
     ):
-        self.tenant = TenantClient(username, password, api_url)
-        self.catalog = CatalogClient(username, password, api_url)
-        self.account = AccountClient(username, password, api_url)
-        self.subscription = SubscriptionClient(username, password, api_url)
-        self.bundle = BundleClient(username, password, api_url)
-        self.overdue = OverdueClient(username, password, api_url)
+        self.tenant = TenantClient(username, password, api_url, timeout)
+        self.catalog = CatalogClient(username, password, api_url, timeout)
+        self.account = AccountClient(username, password, api_url, timeout)
+        self.subscription = SubscriptionClient(username, password, api_url, timeout)
+        self.bundle = BundleClient(username, password, api_url, timeout)
+        self.overdue = OverdueClient(username, password, api_url, timeout)
