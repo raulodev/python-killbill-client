@@ -75,10 +75,18 @@ class CatalogClient(BaseClient):
             "requestedDate": requested_date,
         }
 
+        if xml:
+            endpoint = "catalog/xml"
+            headers = header.dict()
+        else:
+            endpoint = "catalog"
+            headers = header.dict().copy()
+            headers.update({"Accept": "application/json"})
+
         response = self._get(
-            "catalog/xml" if xml else "catalog",
+            endpoint,
             payload=payload,
-            headers=header.dict(),
+            headers=headers,
         )
 
         self._raise_for_status(response)
