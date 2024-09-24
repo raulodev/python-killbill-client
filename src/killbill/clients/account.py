@@ -254,3 +254,27 @@ class AccountClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
+
+    def bundles(
+        self,
+        header: Header,
+        account_id: str,
+        external_key: str = None,
+        bundles_filter: str = None,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve bundles for account"""
+
+        params = {
+            "externalKey": external_key,
+            "bundlesFilter": bundles_filter,
+            "audit": str(audit),
+        }
+
+        response = self._get(
+            f"accounts/{account_id}/bundles", headers=header.dict(), params=params
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
