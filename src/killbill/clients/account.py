@@ -278,3 +278,15 @@ class AccountClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
+
+    def overdue(self, header: Header, account_id: str):
+        """Retrieve overdue state for account"""
+
+        response = self._get(
+            f"accounts/{account_id}/overdue",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
