@@ -78,15 +78,19 @@ class SubscriptionClient(BaseClient):
     ):
         """Cancel an entitlement plan"""
 
+        params = {
+            "requestedDate": requested_date,
+            "entitlementPolicy": (
+                str(entitlement_policy) if entitlement_policy else None
+            ),
+            "billingPolicy": str(billing_policy) if billing_policy else None,
+            "useRequestedDateForBilling": use_requested_date_for_billing,
+        }
+
         response = self._delete(
             f"subscriptions/{subscription_id}",
             headers=header.dict(),
-            params={
-                "requestedDate": requested_date,
-                "entitlementPolicy": str(entitlement_policy),
-                "billingPolicy": str(billing_policy),
-                "useRequestedDateForBilling": use_requested_date_for_billing,
-            },
+            params=params,
         )
 
         self._raise_for_status(response)
