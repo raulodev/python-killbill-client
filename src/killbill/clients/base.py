@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 import requests
 from requests.exceptions import JSONDecodeError
-from killbill.exceptions import KillBillError, UnknownError, AuthError
+from killbill.exceptions import KillBillError, UnknownError, AuthError, NotFoundError
 
 
 class BaseClient:
@@ -110,6 +110,9 @@ class BaseClient:
 
             if status_code == 401:
                 raise AuthError
+
+            if status_code == 404:
+                raise NotFoundError
 
             # Try get error message from kill bill api
             error_message = None

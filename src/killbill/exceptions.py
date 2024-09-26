@@ -13,3 +13,8 @@ class UnknownError(KillBillError):
 class AuthError(Exception):
     def __init__(self, msg: object = "Unauthorized") -> None:
         super().__init__(msg)
+
+
+class NotFoundError(Exception):
+    def __init__(self, msg: object = "Source Not Found") -> None:
+        super().__init__(msg)
