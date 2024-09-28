@@ -290,3 +290,30 @@ class AccountClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
+
+    def retrieve_by_id(
+        self,
+        header: Header,
+        account_id: str,
+        account_with_balance: bool = False,
+        account_with_balance_and_cba: bool = False,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve account by id"""
+
+
+        params = {
+            "accountWithBalance": account_with_balance,
+            "accountWithBalanceAndCBA": account_with_balance_and_cba,
+            "audit": str(audit),
+        }
+
+        response = self._get(
+            f"accounts/{account_id}",
+            params=params,
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
