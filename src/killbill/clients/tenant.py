@@ -80,3 +80,48 @@ class TenantClient(BaseClient):
         )
 
         self._raise_for_status(response)
+
+    def retrieve_push_notifications(self, header: Header):
+        """Retrieve all push notification subscriptions for the tenant."""
+
+        response = self._get(
+            "tenants/registerNotificationCallback",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+        
+    def create_push_notification(
+        self, header: Header, callback_url: str
+    ) -> None:
+        """Create a new push notification subscription for the tenant.
+
+        Args:
+            header (Header): The authentication headers.
+            callback_url (str): The callback URL for push notifications.
+        """
+        params = {
+            "cb": callback_url,
+        }
+
+        response = self._post(
+            "tenants/registerNotificationCallback",
+            params=params,
+            headers=header.dict(),
+        )
+        self._raise_for_status(response)
+
+    def delete_push_notification(self, header: Header):
+        """Delete all existing push notification subscription.
+
+        Args:
+            header (Header): The authentication headers.
+        """
+        response = self._delete(
+            f"tenants/registerNotificationCallback/",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
