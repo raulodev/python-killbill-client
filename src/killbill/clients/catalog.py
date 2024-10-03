@@ -124,3 +124,20 @@ class CatalogClient(BaseClient):
         )
 
         self._raise_for_status(response)
+
+
+    def versions(self, header:Header):
+        """Retrieve a list of catalog versions"""
+
+        response = self._get(
+            "catalog/versions",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+
+
+
