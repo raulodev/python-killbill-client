@@ -2,4 +2,3 @@ src/test_*.py
 __pycache__
 .venv
 dist
-test.py

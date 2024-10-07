@@ -4,6 +4,7 @@ from killbill.clients.account import AccountClient
 from killbill.clients.subscription import SubscriptionClient
 from killbill.clients.bundle import BundleClient
 from killbill.clients.overdue import OverdueClient
+from killbill.clients.test import TestClient
 
 
 class KillBillClient:
@@ -22,3 +23,4 @@ class KillBillClient:
         self.subscription = SubscriptionClient(username, password, api_url, timeout)
         self.bundle = BundleClient(username, password, api_url, timeout)
         self.overdue = OverdueClient(username, password, api_url, timeout)
+        self.test = TestClient(username, password, api_url, timeout)
