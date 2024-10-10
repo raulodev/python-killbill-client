@@ -6,6 +6,7 @@ from killbill.clients.tenant import TenantClient
 from killbill.clients.overdue import OverdueClient
 from killbill.clients.test import TestClient
 from killbill.clients.invoice import InvoiceClient
+from killbill.clients.credit import CreditClient
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     "OverdueClient",
     "TestClient",
     "InvoiceClient",
+    "CreditClient",
 ]

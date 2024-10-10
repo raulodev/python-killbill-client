@@ -6,6 +6,7 @@ from killbill.clients.bundle import BundleClient
 from killbill.clients.overdue import OverdueClient
 from killbill.clients.test import TestClient
 from killbill.clients.invoice import InvoiceClient
+from killbill.clients.credit import CreditClient
 
 
 class KillBillClient:
@@ -26,3 +27,4 @@ class KillBillClient:
         self.overdue = OverdueClient(username, password, api_url, timeout)
         self.test = TestClient(username, password, api_url, timeout)
         self.invoice = InvoiceClient(username, password, api_url, timeout)
+        self.credit = CreditClient(username, password, api_url, timeout)
