@@ -45,3 +45,16 @@ class BundleClient(BaseClient):
         )
 
         self._raise_for_status(response)
+
+    def retrieve(self, header: Header, bundle_id: str, audit: Audit = Audit.NONE):
+        """Retrieve a bundle by id"""
+
+        params = {"audit": str(audit)}
+
+        response = self._get(
+            f"bundles/{bundle_id}", headers=header.dict(), params=params
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
