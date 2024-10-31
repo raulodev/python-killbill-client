@@ -165,6 +165,34 @@ class AccountClient(BaseClient):
 
         return self._get_uuid(response.headers.get("Location"))
 
+    def get_payment_methods(
+        self,
+        header: Header,
+        account_id: str,
+        with_plugin_info: bool = False,
+        included_deleted=False,
+        plugin_property: List[str] = None,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve account payment methods"""
+
+        params = {
+            "withPluginInfo": with_plugin_info,
+            "includedDeleted": included_deleted,
+            "pluginProperty": plugin_property,
+            "audit": str(audit),
+        }
+
+        response = self._get(
+            f"accounts/{account_id}/paymentMethods",
+            headers=header.dict(),
+            params=params,
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
     def invoices(
         self,
         header: Header,
@@ -300,7 +328,6 @@ class AccountClient(BaseClient):
         audit: Audit = Audit.NONE,
     ):
         """Retrieve account by id"""
-
 
         params = {
             "accountWithBalance": account_with_balance,
