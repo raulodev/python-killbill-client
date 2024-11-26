@@ -114,3 +114,14 @@ class ObjectType(enum.Enum):
 
     def __str__(self):
         return self.value
+
+
+class TransactionType(enum.Enum):
+    """Transaction Type"""
+
+    AUTHORIZE = "AUTHORIZE"
+    PURCHASE = "PURCHASE"
+    CREDIT = "CREDIT"
+
+    def __str__(self):
+        return self.value
