@@ -120,8 +120,12 @@ class TransactionType(enum.Enum):
     """Transaction Type"""
 
     AUTHORIZE = "AUTHORIZE"
+    CAPTURE = "CAPTURE"
+    CHARGEBACK = "CHARGEBACK"
     PURCHASE = "PURCHASE"
     CREDIT = "CREDIT"
+    REFUND = "REFUND"
+    VOID = "VOID"
 
     def __str__(self):
         return self.value
