@@ -378,3 +378,29 @@ class AccountClient(BaseClient):
         self._raise_for_status(response)
 
         return self._get_uuid(response.headers.get("Location"))
+
+    def invoice_payments(
+        self,
+        header: Header,
+        account_id: str,
+        payment_method_id: str = None,
+        external_payment: bool = False,
+        payment_amount: int = None,
+        target_date: str = None,
+    ):
+        """Trigger a payment for all unpaid invoices"""
+
+        params = {
+            "paymentMethodId": payment_method_id,
+            "externalPayment": external_payment,
+            "paymentAmount": payment_amount,
+            "targetDate": target_date,
+        }
+
+        response = self._post(
+            f"accounts/{account_id}/invoicePayments",
+            headers=header.dict(),
+            params=params,
+        )
+
+        self._raise_for_status(response)
