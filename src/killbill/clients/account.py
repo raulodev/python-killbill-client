@@ -355,7 +355,7 @@ class AccountClient(BaseClient):
         control_plugin_name: List[str] | None = None,
         plugin_property: List[str] | None = None,
     ):
-        """Trigger a payment (authorization, purchase or credit)"""
+        """Trigger a payment (authorization, purchase or credit) and return the payment id"""
 
         payload = {
             "transactionType": str(transaction_type),
@@ -377,4 +377,4 @@ class AccountClient(BaseClient):
 
         self._raise_for_status(response)
 
-        return response.json()
+        return self._get_uuid(response.headers.get("Location"))
