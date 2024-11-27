@@ -1,7 +1,7 @@
 from typing import Union, List
 from killbill.clients.base import BaseClient
 from killbill.header import Header
-from killbill.enums import Audit, BlockingStateType
+from killbill.enums import Audit, BlockingStateType, TransactionType
 
 
 class AccountClient(BaseClient):
@@ -339,6 +339,40 @@ class AccountClient(BaseClient):
             f"accounts/{account_id}",
             params=params,
             headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+    def payments(
+        self,
+        header: Header,
+        account_id: str,
+        transaction_type: TransactionType,
+        amount: int | float,
+        payment_method_id: str | None = None,
+        control_plugin_name: List[str] | None = None,
+        plugin_property: List[str] | None = None,
+    ):
+        """Trigger a payment (authorization, purchase or credit)"""
+
+        payload = {
+            "transactionType": str(transaction_type),
+            "amount": amount,
+        }
+
+        params = {
+            "paymentMethodId": payment_method_id,
+            "controlPluginName": control_plugin_name,
+            "pluginProperty": plugin_property,
+        }
+
+        response = self._post(
+            f"accounts/{account_id}/payments",
+            headers=header.dict(),
+            payload=payload,
+            params=params,
         )
 
         self._raise_for_status(response)
