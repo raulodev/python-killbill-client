@@ -257,3 +257,29 @@ class SubscriptionClient(BaseClientWithCustomFields):
             fields=fields,
             object_type=ObjectType.SUBSCRIPTION,
         )
+
+    def update_bill_cycle_date(
+        self,
+        header: Header,
+        subscription_id: str,
+        day: int,
+        effective_from_date: str = None,
+        force_new_bcd_with_past_effective_date: bool = False,
+    ):
+        """Allows you to change the Bill Cycle Date"""
+
+        payload = {"billCycleDayLocal": day}
+
+        params = {
+            "effectiveFromDate": effective_from_date,
+            "forceNewBcdWithPastEffectiveDate": force_new_bcd_with_past_effective_date,
+        }
+
+        response = self._put(
+            f"subscriptions/{subscription_id}/bcd",
+            headers=header.dict(),
+            payload=payload,
+            params=params,
+        )
+
+        self._raise_for_status(response)
