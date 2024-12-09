@@ -1,7 +1,8 @@
 from typing import Union
+
 from killbill.clients.base import BaseClient
+from killbill.enums import BillingPeriod, ProductCategory, TrialTimeUnit
 from killbill.header import Header
-from killbill.enums import ProductCategory, TrialTimeUnit, BillingPeriod
 
 
 class CatalogClient(BaseClient):
@@ -125,8 +126,7 @@ class CatalogClient(BaseClient):
 
         self._raise_for_status(response)
 
-
-    def versions(self, header:Header):
+    def versions(self, header: Header):
         """Retrieve a list of catalog versions"""
 
         response = self._get(
@@ -137,7 +137,3 @@ class CatalogClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
-
-
-
-

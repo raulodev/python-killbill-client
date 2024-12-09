@@ -1,6 +1,6 @@
 from killbill.clients.base import BaseClient
-from killbill.header import Header
 from killbill.enums import Audit
+from killbill.header import Header
 
 
 class InvoiceClient(BaseClient):

@@ -1,4 +1,5 @@
 from typing import Union
+
 from killbill.clients.base import BaseClient
 from killbill.header import Header
 
@@ -92,10 +93,8 @@ class TenantClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
-        
-    def create_push_notification(
-        self, header: Header, callback_url: str
-    ) -> None:
+
+    def create_push_notification(self, header: Header, callback_url: str) -> None:
         """Create a new push notification subscription for the tenant.
 
         Args:
