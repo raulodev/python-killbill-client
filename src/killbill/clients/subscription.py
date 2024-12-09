@@ -24,6 +24,7 @@ class SubscriptionClient(BaseClient):
         product_category: ProductCategory = None,
         billing_period: BillingPeriod = None,
         price_list: str = None,
+        bundle_id: str = None,
     ):
         """Create an subscription
 
@@ -39,6 +40,7 @@ class SubscriptionClient(BaseClient):
             "productCategory": str(product_category) if product_category else None,
             "billingPeriod": str(billing_period) if billing_period else None,
             "priceList": price_list,
+            "bundleId": bundle_id,
         }
 
         params = {
