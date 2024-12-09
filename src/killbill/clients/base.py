@@ -1,7 +1,12 @@
+from typing import List
 from urllib.parse import urlparse
+
 import requests
 from requests.exceptions import JSONDecodeError
-from killbill.exceptions import KillBillError, UnknownError, AuthError, NotFoundError
+
+from killbill.enums import Audit, ObjectType
+from killbill.exceptions import AuthError, KillBillError, NotFoundError, UnknownError
+from killbill.header import Header
 
 
 class BaseClient:
@@ -137,3 +142,103 @@ class BaseClient:
             data = [p for p in urlparse(url).path.split("/") if p != ""]
 
             return data[-1]
+
+
+class BaseClientWithCustomFields(BaseClient):
+    """Base class for the Kill Bill custom fields apis"""
+
+    def _add_custom_fields(
+        self,
+        header: Header,
+        path: str,
+        object_id: str,
+        fields: dict,
+        object_type: ObjectType,
+    ):
+        """Add custom fields to object"""
+
+        payload = []
+
+        for item in fields.items():
+            payload.append(
+                {
+                    "objectType": str(object_type),
+                    "name": item[0],
+                    "value": item[1],
+                }
+            )
+
+        response = self._post(
+            f"{path}/{object_id}/customFields",
+            headers=header.dict(),
+            payload=payload,
+        )
+
+        self._raise_for_status(response)
+
+    def _get_custom_fields(
+        self,
+        header: Header,
+        path: str,
+        object_id: str,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve object custom fields"""
+
+        params = {"audit": str(audit)}
+
+        response = self._get(
+            f"{path}/{object_id}/customFields",
+            headers=header.dict(),
+            params=params,
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+    def _update_custom_fields(
+        self,
+        header: Header,
+        path: str,
+        object_id: str,
+        fields: List[dict],
+        object_type: ObjectType,
+    ):
+        """Modify custom fields to subscription"""
+
+        if not isinstance(fields, (list, tuple)):
+            raise TypeError("fields must be a list or tuple")
+
+        for item in fields:
+            if not isinstance(item, dict):
+                raise TypeError("fields must be a list of dict")
+
+            if not item.get("name"):
+                raise ValueError("name is required")
+
+            if not item.get("value"):
+                raise ValueError("value is required")
+
+            if not item.get("field_id"):
+                raise ValueError("field_id is required")
+
+        payload = []
+
+        for item in fields:
+            payload.append(
+                {
+                    "objectType": str(object_type),
+                    "name": item.get("name"),
+                    "value": item.get("value"),
+                    "customFieldId": item.get("field_id"),
+                }
+            )
+
+        response = self._put(
+            f"{path}/{object_id}/customFields",
+            headers=header.dict(),
+            payload=payload,
+        )
+
+        self._raise_for_status(response)
