@@ -135,8 +135,6 @@ class BaseClient:
     def _get_uuid(self, url: str = None):
         """Return uuid from url location"""
 
-        print(urlparse(url).path.split("/")[-1])
-
         if url:
 
             data = [p for p in urlparse(url).path.split("/") if p != ""]
