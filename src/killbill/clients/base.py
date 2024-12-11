@@ -5,7 +5,13 @@ import requests
 from requests.exceptions import JSONDecodeError
 
 from killbill.enums import Audit, ObjectType
-from killbill.exceptions import AuthError, KillBillError, NotFoundError, UnknownError
+from killbill.exceptions import (
+    AuthError,
+    BadRequestError,
+    KillBillError,
+    NotFoundError,
+    UnknownError,
+)
 from killbill.header import Header
 
 
@@ -112,6 +118,9 @@ class BaseClient:
         status_code = response.status_code
 
         if status_code >= 400:
+
+            if status_code == 400:
+                raise BadRequestError
 
             if status_code == 401:
                 raise AuthError

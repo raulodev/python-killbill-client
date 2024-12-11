@@ -18,3 +18,8 @@ class AuthError(Exception):
 class NotFoundError(Exception):
     def __init__(self, msg: object = "Source Not Found") -> None:
         super().__init__(msg)
+
+
+class BadRequestError(Exception):
+    def __init__(self, msg: object = "Bad Request") -> None:
+        super().__init__(msg)
