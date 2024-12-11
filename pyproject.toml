@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "python-killbill-client"
-version = "0.3.1"
+version = "0.3.2"
 authors = [{ name = "Raul Cobiellas", email = "raulodev@gmail.com" }]
 description = "killbill client"
 readme = "README.md"

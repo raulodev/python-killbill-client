@@ -117,3 +117,37 @@ class BundleClient(BaseClientWithCustomFields):
             fields=fields,
             object_type=ObjectType.BUNDLE,
         )
+
+    def block(
+        self,
+        header: Header,
+        bundle_id: str,
+        state_name: str,
+        service: str,
+        is_block_change: bool = False,
+        is_block_entitlement: bool = False,
+        is_block_billing: bool = False,
+        requested_date: str = None,
+    ):
+        """
+        Provides a low level interface to add a BlockingState event for this bundle
+        """
+
+        payload = {
+            "stateName": state_name,
+            "service": service,
+            "isBlockChange": is_block_change,
+            "isBlockEntitlement": is_block_entitlement,
+            "isBlockBilling": is_block_billing,
+        }
+
+        params = {"requestedDate": requested_date}
+
+        response = self._post(
+            f"bundles/{bundle_id}/block",
+            headers=header.dict(),
+            payload=payload,
+            params=params,
+        )
+
+        self._raise_for_status(response)

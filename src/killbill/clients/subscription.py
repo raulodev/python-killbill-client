@@ -283,3 +283,41 @@ class SubscriptionClient(BaseClientWithCustomFields):
         )
 
         self._raise_for_status(response)
+
+    def block(
+        self,
+        header: Header,
+        subscription_id: str,
+        state_name: str,
+        service: str,
+        is_block_change: bool = False,
+        is_block_entitlement: bool = False,
+        is_block_billing: bool = False,
+        requested_date: str = None,
+    ):
+        """
+        Provides a low level interface to add a BlockingState event for this subscription.
+
+        Return the URL to retrieve the subscription blocking states for the account.
+        """
+
+        payload = {
+            "stateName": state_name,
+            "service": service,
+            "isBlockChange": is_block_change,
+            "isBlockEntitlement": is_block_entitlement,
+            "isBlockBilling": is_block_billing,
+        }
+
+        params = {"requestedDate": requested_date}
+
+        response = self._post(
+            f"subscriptions/{subscription_id}/block",
+            headers=header.dict(),
+            payload=payload,
+            params=params,
+        )
+
+        self._raise_for_status(response)
+
+        return response.headers.get("Location")
