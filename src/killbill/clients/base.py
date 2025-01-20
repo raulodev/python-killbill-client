@@ -119,15 +119,6 @@ class BaseClient:
 
         if status_code >= 400:
 
-            if status_code == 400:
-                raise BadRequestError
-
-            if status_code == 401:
-                raise AuthError
-
-            if status_code == 404:
-                raise NotFoundError
-
             # Try get error message from kill bill api
             error_message = None
 
@@ -136,10 +127,16 @@ class BaseClient:
             except JSONDecodeError:
                 error_message = response.text
 
-            if error_message:
-                raise KillBillError(error_message)
+            if status_code == 400:
+                raise BadRequestError(error_message)
 
-            raise UnknownError
+            if status_code == 401:
+                raise AuthError(error_message)
+
+            if status_code == 404:
+                raise NotFoundError(error_message)
+
+            raise KillBillError(error_message)
 
     def _get_uuid(self, url: str = None):
         """Return uuid from url location"""
