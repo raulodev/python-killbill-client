@@ -129,3 +129,16 @@ class TransactionType(enum.Enum):
 
     def __str__(self):
         return self.value
+
+
+class State(enum.Enum):
+    """State"""
+
+    ACTIVE = "ACTIVE"
+    PENDING = "PENDING"
+    BLOCKED = "BLOCKED"
+    CANCELLED = "CANCELLED"
+    EXPIRED = "EXPIRED"
+
+    def __str__(self):
+        return self.value
