@@ -405,3 +405,29 @@ class AccountClient(BaseClient):
         )
 
         self._raise_for_status(response)
+
+    def bundles_pagination(
+        self,
+        header: Header,
+        account_id: str,
+        offset: int = 0,
+        limit: int = 100,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve bundles for account with pagination"""
+
+        params = {
+            "offset": offset,
+            "limit": limit,
+            "audit": str(audit),
+        }
+
+        response = self._get(
+            f"accounts/{account_id}/bundles/pagination",
+            headers=header.dict(),
+            params=params,
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
