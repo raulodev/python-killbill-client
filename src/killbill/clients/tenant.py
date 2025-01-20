@@ -119,7 +119,7 @@ class TenantClient(BaseClient):
             header (Header): The authentication headers.
         """
         response = self._delete(
-            f"tenants/registerNotificationCallback/",
+            "tenants/registerNotificationCallback/",
             headers=header.dict(),
         )
 
