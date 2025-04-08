@@ -495,10 +495,12 @@ class AccountClient(BaseClientWithCustomFields, BaseClientWithTags):
 
         Example:
         ```python
+        from killbill.enums import SystemTags
+
         killbill.account.add_tags(
             header,
             account_id=account_id,
-            tags=["00000000-0000-0000-0000-000000000001"],
+            tags=[SystemTags.AUTO_PAY_OFF, "00000000-0000-0000-0000-000000000002"],
         )
         ```
         """
