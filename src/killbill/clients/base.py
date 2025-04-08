@@ -301,6 +301,4 @@ class BaseClientWithTags(BaseClient):
             params=params,
         )
 
-        print(response.url)
-
         self._raise_for_status(response)
