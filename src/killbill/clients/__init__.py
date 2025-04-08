@@ -7,8 +7,11 @@ from killbill.clients.overdue import OverdueClient
 from killbill.clients.subscription import SubscriptionClient
 from killbill.clients.tenant import TenantClient
 from killbill.clients.test import TestClient
+from killbill.clients.base import BaseClientWithTags, BaseClientWithCustomFields
 
 __all__ = [
+    "BaseClientWithTags",
+    "BaseClientWithCustomFields",
     "AccountClient",
     "BundleClient",
     "CatalogClient",

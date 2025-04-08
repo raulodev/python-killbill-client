@@ -10,7 +10,6 @@ from killbill.exceptions import (
     BadRequestError,
     KillBillError,
     NotFoundError,
-    UnknownError,
 )
 from killbill.header import Header
 
@@ -243,6 +242,67 @@ class BaseClientWithCustomFields(BaseClient):
             f"{path}/{object_id}/customFields",
             headers=header.dict(),
             payload=payload,
+        )
+
+        self._raise_for_status(response)
+
+
+class BaseClientWithTags(BaseClient):
+    """Base class for the Kill Bill tags apis"""
+
+    def _add_tags(
+        self,
+        header: Header,
+        path: str,
+        object_id: str,
+        tags: List[str],
+    ):
+        """Add tags to object"""
+
+        payload = tags
+
+        for item in tags:
+            if not isinstance(item, str):
+                raise TypeError("Tags must be a list of string")
+
+        response = self._post(
+            f"{path}/{object_id}/tags",
+            headers=header.dict(),
+            payload=payload,
+        )
+
+        self._raise_for_status(response)
+
+    def _get_tags(
+        self,
+        header: Header,
+        path: str,
+        object_id: str,
+        audit: Audit = Audit.NONE,
+    ):
+        """Retrieve object tags"""
+
+        params = {"audit": str(audit)}
+
+        response = self._get(
+            f"{path}/{object_id}/tags",
+            headers=header.dict(),
+            params=params,
+        )
+
+        self._raise_for_status(response)
+
+        return response.json()
+
+    def _delete_tag(self, header: Header, path: str, object_id: str, tags: List[str]):
+        """Delete tags from an object"""
+
+        params = {"tagDef": tags}
+
+        response = self._delete(
+            f"{path}/{object_id}/tags",
+            headers=header.dict(),
+            params=params,
         )
 
         self._raise_for_status(response)
