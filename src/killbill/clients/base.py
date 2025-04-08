@@ -259,11 +259,7 @@ class BaseClientWithTags(BaseClient):
     ):
         """Add tags to object"""
 
-        payload = tags
-
-        for item in tags:
-            if not isinstance(item, str):
-                raise TypeError("Tags must be a list of string")
+        payload = [str(tag) for tag in tags]
 
         response = self._post(
             f"{path}/{object_id}/tags",
@@ -304,5 +300,7 @@ class BaseClientWithTags(BaseClient):
             headers=header.dict(),
             params=params,
         )
+
+        print(response.url)
 
         self._raise_for_status(response)
