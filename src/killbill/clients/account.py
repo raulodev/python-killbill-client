@@ -1,11 +1,11 @@
 from typing import List, Union
 
-from killbill.clients.base import BaseClient
-from killbill.enums import Audit, BlockingStateType, TransactionType
+from killbill.clients.base import BaseClientWithCustomFields, BaseClientWithTags
+from killbill.enums import Audit, BlockingStateType, ObjectType, TransactionType
 from killbill.header import Header
 
 
-class AccountClient(BaseClient):
+class AccountClient(BaseClientWithCustomFields, BaseClientWithTags):
     """Client for the Kill Bill account API"""
 
     def create(
@@ -431,3 +431,88 @@ class AccountClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
+
+    def add_custom_fields(
+        self,
+        header: Header,
+        account_id: str,
+        fields: dict,
+    ):
+        """Add custom fields to account"""
+
+        self._add_custom_fields(
+            header,
+            path="accounts",
+            object_id=account_id,
+            fields=fields,
+            object_type=ObjectType.ACCOUNT,
+        )
+
+    def get_custom_fields(
+        self, header: Header, account_id: str, audit: Audit = Audit.NONE
+    ):
+        """Retrieve account custom fields"""
+
+        return self._get_custom_fields(
+            header, path="accounts", object_id=account_id, audit=audit
+        )
+
+    def update_custom_fields(
+        self,
+        header: Header,
+        account_id: str,
+        fields: List[dict],
+    ):
+        """Modify custom fields to account
+
+        Example:
+        ```python
+        killbill.account.update_custom_fields(
+            header,
+            account_id="account_id",
+            fields=[
+                {
+                    "name": "name",
+                    "value": "value",
+                    "field_id": "field_id",
+                }
+            ],
+        )
+
+        ```
+        """
+
+        self._update_custom_fields(
+            header,
+            path="accounts",
+            object_id=account_id,
+            fields=fields,
+            object_type=ObjectType.ACCOUNT,
+        )
+
+    def add_tags(self, header: Header, account_id: str, tags: List[str]):
+        """Add tags to account
+
+        Example:
+        ```python
+        killbill.account.add_tags(
+            header,
+            account_id=account_id,
+            tags=["00000000-0000-0000-0000-000000000001"],
+        )
+        ```
+        """
+
+        self._add_tags(header, path="accounts", object_id=account_id, tags=tags)
+
+    def get_tags(self, header: Header, account_id: str, audit: Audit = Audit.NONE):
+        """Retrieve account tags"""
+
+        return self._get_tags(
+            header, path="accounts", object_id=account_id, audit=audit
+        )
+
+    def delete_tags(self, header: Header, account_id: str, tags: List[str]):
+        """Delete tags from an account"""
+
+        self._delete_tag(header, path="accounts", object_id=account_id, tags=tags)
