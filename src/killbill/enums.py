@@ -142,3 +142,38 @@ class State(enum.Enum):
 
     def __str__(self):
         return self.value
+
+
+class SystemTags(enum.Enum):
+
+    AUTO_PAY_OFF = "00000000-0000-0000-0000-000000000001"
+    """Suspends payments until removed."""
+
+    AUTO_INVOICING_OFF = "00000000-0000-0000-0000-000000000002"
+    """Suspends invoicing until removed."""
+
+    OVERDUE_ENFORCEMENT_OFF = "00000000-0000-0000-0000-000000000003"
+    """Suspends overdue enforcement behaviour until removed."""
+
+    WRITTEN_OFF = "00000000-0000-0000-0000-000000000004"
+    """Indicates that an invoice is written off. This has no effect on billing or payment."""
+
+    MANUAL_PAY = "00000000-0000-0000-0000-000000000005"
+    """Indicates that Killbill doesn't process payments for this account. 
+    That is, the account uses external payments only.
+    """
+
+    TEST = "00000000-0000-0000-0000-000000000006"
+    """Indicates that this is a test account."""
+
+    PARTNER = "00000000-0000-0000-0000-000000000007"
+    """Indicates that this is a partner account."""
+
+    AUTO_INVOICING_DRAFT = "00000000-0000-0000-0000-000000000008"
+    """Generate account invoices in DRAFT mode."""
+
+    AUTO_INVOICING_REUSE_DRAFT = "00000000-0000-0000-0000-000000000009"
+    """Use existing draft invoice if exists."""
+
+    def __str__(self):
+        return self.value
