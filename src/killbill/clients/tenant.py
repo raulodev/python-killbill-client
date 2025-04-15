@@ -14,12 +14,15 @@ class TenantClient(BaseClient):
         created_by: str,
         reason: str = None,
         comment: str = None,
+        use_global_default: bool = False,
     ) -> Union[str, None]:
         """Creates a new tenant.
 
         Returns:
             str or None: The tenant's ID or None if the request failed.
         """
+
+        params = {"useGlobalDefault": use_global_default}
 
         payload = {
             "apiKey": api_key,
@@ -29,6 +32,7 @@ class TenantClient(BaseClient):
         response = self._post(
             "tenants",
             payload=payload,
+            params=params,
             headers={
                 "X-Killbill-CreatedBy": created_by,
                 "X-Killbill-Reason": reason,
