@@ -137,3 +137,16 @@ class CatalogClient(BaseClient):
         self._raise_for_status(response)
 
         return response.json()
+
+    def delete(
+        self,
+        header: Header,
+    ):
+        """Delete all versions of a per tenant catalog"""
+
+        response = self._delete(
+            "catalog",
+            headers=header.dict(),
+        )
+
+        self._raise_for_status(response)
