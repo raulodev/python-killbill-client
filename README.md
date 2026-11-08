@@ -2,8 +2,6 @@
 
 Python client for the [Kill Bill](https://killbill.io/) REST API.
 
-> **Fork notice** — this is a fork of [raulodev/python-killbill-client](https://github.com/raulodev/python-killbill-client).
-
 ### Installation
 
 ```bash
